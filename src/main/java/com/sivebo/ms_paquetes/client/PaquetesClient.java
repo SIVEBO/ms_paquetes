@@ -12,7 +12,7 @@ public class PaquetesClient {
     private final WebClient webClient;
 
     public PaquetesClient(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://localhost:8091").build();
+        this.webClient = builder.baseUrl("http://localhost:8092").build();
     }
 
     public Boolean verificarStockEmbalaje(Long idArt, Long idSucursal, Integer cantidad) {
