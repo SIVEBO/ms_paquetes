@@ -7,9 +7,8 @@ import lombok.Data;
 @Data
 public class InventarioPaqueteResponse {
     private Long idInv;
-    private Long idGuiaTracking;
-    private Long idUbicacion;
-    private String codigoEstante;
-    private LocalDate fechaIngresoBodega;
-    private LocalDate fechaSalidaBodega;
+    private Long idGuia;
+    private Long idSucursal;
+    private LocalDate fechaIngreso;
+    private LocalDate fechaSalida;
 }

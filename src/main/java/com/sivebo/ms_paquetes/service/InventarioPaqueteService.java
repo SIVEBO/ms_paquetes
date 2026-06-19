@@ -9,7 +9,7 @@ public interface InventarioPaqueteService {
     InventarioPaqueteResponse registrarIngreso(InventarioPaqueteRequest request);
     InventarioPaqueteResponse registrarSalida(Long idInv);
     InventarioPaqueteResponse obtenerPorId(Long id);
-    InventarioPaqueteResponse obtenerPorGuia(Long idGuiaTracking);
+    InventarioPaqueteResponse obtenerPorGuia(Long idGuia);
     List<InventarioPaqueteResponse> listarEnBodega();
-    List<InventarioPaqueteResponse> listarPorUbicacion(Long idUbicacion);
+    List<InventarioPaqueteResponse> listarPorSucursal(Long idSucursal);
 }

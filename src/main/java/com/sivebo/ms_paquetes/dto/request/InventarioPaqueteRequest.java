@@ -8,14 +8,12 @@ import lombok.Data;
 @Data
 public class InventarioPaqueteRequest {
 
-    @NotNull(message = "El id de guia tracking es obligatorio")
-    private Long idGuiaTracking;
+    @NotNull(message = "El id de guia es obligatorio")
+    private Long idGuia;
 
-    @NotNull(message = "El id de ubicacion es obligatorio")
-    private Long idUbicacion;
+    @NotNull(message = "El id de sucursal es obligatorio")
+    private Long idSucursal;
 
     @NotNull(message = "La fecha de ingreso es obligatoria")
-    private LocalDate fechaIngresoBodega;
-
-    private LocalDate fechaSalidaBodega;
+    private LocalDate fechaIngreso;
 }

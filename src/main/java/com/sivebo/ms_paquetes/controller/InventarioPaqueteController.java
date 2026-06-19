@@ -41,9 +41,9 @@ public class InventarioPaqueteController {
         return ResponseEntity.ok(service.obtenerPorId(id));
     }
 
-    @GetMapping("/guia/{idGuiaTracking}")
-    public ResponseEntity<InventarioPaqueteResponse> obtenerPorGuia(@PathVariable Long idGuiaTracking) {
-        return ResponseEntity.ok(service.obtenerPorGuia(idGuiaTracking));
+    @GetMapping("/guia/{idGuia}")
+    public ResponseEntity<InventarioPaqueteResponse> obtenerPorGuia(@PathVariable Long idGuia) {
+        return ResponseEntity.ok(service.obtenerPorGuia(idGuia));
     }
 
     @GetMapping("/en-bodega")
@@ -51,8 +51,8 @@ public class InventarioPaqueteController {
         return ResponseEntity.ok(service.listarEnBodega());
     }
 
-    @GetMapping("/ubicacion/{idUbicacion}")
-    public ResponseEntity<List<InventarioPaqueteResponse>> listarPorUbicacion(@PathVariable Long idUbicacion) {
-        return ResponseEntity.ok(service.listarPorUbicacion(idUbicacion));
+    @GetMapping("/sucursal/{idSucursal}")
+    public ResponseEntity<List<InventarioPaqueteResponse>> listarPorSucursal(@PathVariable Long idSucursal) {
+        return ResponseEntity.ok(service.listarPorSucursal(idSucursal));
     }
 }

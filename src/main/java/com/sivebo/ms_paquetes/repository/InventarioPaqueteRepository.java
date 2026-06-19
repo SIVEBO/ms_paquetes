@@ -10,7 +10,7 @@ import com.sivebo.ms_paquetes.model.entity.InventarioPaquete;
 
 @Repository
 public interface InventarioPaqueteRepository extends JpaRepository<InventarioPaquete, Long> {
-    List<InventarioPaquete> findByUbicacion_IdUbicacion(Long idUbicacion);
-    Optional<InventarioPaquete> findByIdGuiaTracking(Long idGuiaTracking);
-    List<InventarioPaquete> findByFechaSalidaBodegaIsNull();
+    Optional<InventarioPaquete> findByIdGuia(Long idGuia);
+    List<InventarioPaquete> findByFechaSalidaIsNull();
+    List<InventarioPaquete> findByIdSucursalAndFechaSalidaIsNull(Long idSucursal);
 }

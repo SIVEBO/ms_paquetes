@@ -12,20 +12,20 @@ public class PaquetesClient {
     private final WebClient webClient;
 
     public PaquetesClient(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://localhost:8092").build();
+        this.webClient = builder.baseUrl("http://localhost:8093").build();
     }
 
-    public Boolean verificarStockEmbalaje(Long idArt, Long idSucursal, Integer cantidad) {
-        log.info("Verificando stock de embalaje para artículo id: {}", idArt);
+    public Boolean verificarGuiaExiste(Long idGuia) {
+        log.info("Verificando existencia de guia id: {} en ms-guias-despacho", idGuia);
         try {
-            return webClient.get()
-                    .uri("/api/stock/verificar?idArt={idArt}&idSucursal={idSucursal}&cantidadRequerida={cantidad}",
-                            idArt, idSucursal, cantidad)
+            webClient.get()
+                    .uri("/api/guias/{id}", idGuia)
                     .retrieve()
-                    .bodyToMono(Boolean.class)
+                    .bodyToMono(Object.class)
                     .block();
+            return true;
         } catch (Exception e) {
-            log.error("Error al consultar ms-embalaje: {}", e.getMessage());
+            log.error("Error al consultar ms-guias-despacho: {}", e.getMessage());
             return false;
         }
     }

@@ -1,11 +1,17 @@
 package com.sivebo.ms_paquetes.model.entity;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,16 +26,15 @@ public class InventarioPaquete {
     @Column(name = "id_inv")
     private Long idInv;
 
-    @Column(name = "id_guia_tracking", nullable = false)
-    private Long idGuiaTracking;
+    @Column(name = "id_guia", nullable = false)
+    private Long idGuia;
 
-    @ManyToOne
-    @JoinColumn(name = "id_ubicacion", nullable = false)
-    private UbicacionBodega ubicacion;
+    @Column(name = "id_sucursal", nullable = false)
+    private Long idSucursal;
 
-    @Column(name = "fecha_ingreso_bodega", nullable = false)
-    private LocalDate fechaIngresoBodega;
+    @Column(name = "fecha_ingreso", nullable = false)
+    private LocalDate fechaIngreso;
 
-    @Column(name = "fecha_salida_bodega")
-    private LocalDate fechaSalidaBodega;
+    @Column(name = "fecha_salida")
+    private LocalDate fechaSalida;
 }
