@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/inventario")
+@RequestMapping("api/v1/inventario")
 @RequiredArgsConstructor
 public class InventarioPaqueteController {
 
