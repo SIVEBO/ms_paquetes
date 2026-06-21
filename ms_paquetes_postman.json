@@ -1,0 +1,92 @@
+{
+	"info": {
+		"name": "MS Paquetes - SIVEBO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8085"
+		}
+	],
+	"item": [
+		{
+			"name": "Inventario de Paquetes",
+			"item": [
+				{
+					"name": "Registrar ingreso de paquete",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idGuia\": 1,\n  \"idSucursal\": 1,\n  \"fechaIngreso\": \"2026-06-21\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventario/ingreso",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "inventario", "ingreso"]
+						}
+					}
+				},
+				{
+					"name": "Registrar salida de paquete",
+					"request": {
+						"method": "PATCH",
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventario/1/salida",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "inventario", "1", "salida"]
+						}
+					}
+				},
+				{
+					"name": "Obtener registro por ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventario/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "inventario", "1"]
+						}
+					}
+				},
+				{
+					"name": "Obtener inventario por guía",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventario/guia/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "inventario", "guia", "1"]
+						}
+					}
+				},
+				{
+					"name": "Listar paquetes en bodega",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventario/en-bodega",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "inventario", "en-bodega"]
+						}
+					}
+				},
+				{
+					"name": "Listar paquetes por sucursal",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventario/sucursal/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "inventario", "sucursal", "1"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
