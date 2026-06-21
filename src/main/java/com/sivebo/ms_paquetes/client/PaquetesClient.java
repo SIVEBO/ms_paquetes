@@ -19,7 +19,7 @@ public class PaquetesClient {
         log.info("Verificando existencia de guia id: {} en ms-guias-despacho", idGuia);
         try {
             webClient.get()
-                    .uri("/api/guias/{id}", idGuia)
+                    .uri("/api/v1/guias/{id}", idGuia)
                     .retrieve()
                     .bodyToMono(Object.class)
                     .block();
