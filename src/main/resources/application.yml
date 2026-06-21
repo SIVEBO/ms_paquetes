@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms_paquetes
+    name: ms-paquetes
   datasource:
     url: ${DB_URL:jdbc:mariadb://localhost:3306/db_ms_paquetes?createDatabaseIfNotExist=true}
     username: ${DB_USERNAME:root}
@@ -9,7 +9,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
-      ddl-auto: ${JPA_DDL_AUTO:none}
+      ddl-auto: ${JPA_DDL_AUTO:update}
     show-sql: ${JPA_SHOW_SQL:true}
     properties:
       hibernate:
