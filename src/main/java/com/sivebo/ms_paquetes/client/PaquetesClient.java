@@ -12,7 +12,7 @@ public class PaquetesClient {
     private final WebClient webClient;
 
     public PaquetesClient(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://localhost:8093").build();
+        this.webClient = builder.baseUrl("http://ms-tracking").build();
     }
 
     public Boolean verificarGuiaExiste(Long idGuia) {
