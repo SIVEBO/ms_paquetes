@@ -1,8 +1,13 @@
 package com.sivebo.ms_paquetes.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +26,6 @@ import com.sivebo.ms_paquetes.exception.RecursoNoEncontradoException;
 import com.sivebo.ms_paquetes.exception.ReglaNegocioException;
 import com.sivebo.ms_paquetes.model.entity.InventarioPaquete;
 import com.sivebo.ms_paquetes.repository.InventarioPaqueteRepository;
-import com.sivebo.ms_paquetes.service.impl.InventarioPaqueteServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class InventarioPaqueteServiceTest {
@@ -33,7 +37,7 @@ class InventarioPaqueteServiceTest {
     private PaquetesClient paquetesClient;
 
     @InjectMocks
-    private InventarioPaqueteServiceImpl service;
+    private InventarioPaqueteService service;
 
     private static final LocalDate HOY = LocalDate.of(2026, 6, 20);
     private static final InventarioPaquete PAQUETE = new InventarioPaquete(1L, 10L, 2L, HOY, null);
@@ -47,7 +51,7 @@ class InventarioPaqueteServiceTest {
     }
 
     @Test
-    void registrarIngreso_guiaExiste_guardaYRetornaDTO() {
+    void registrarIngresoGuiaExisteGuardaYRetornaDTO() {
         when(paquetesClient.verificarGuiaExiste(10L)).thenReturn(true);
         when(repository.save(any(InventarioPaquete.class))).thenReturn(PAQUETE);
 
@@ -60,7 +64,7 @@ class InventarioPaqueteServiceTest {
     }
 
     @Test
-    void registrarIngreso_guiaNoExiste_lanzaReglaNegocio() {
+    void registrarIngresoGuiaNoExisteLanzaReglaNegocio() {
         when(paquetesClient.verificarGuiaExiste(99L)).thenReturn(false);
 
         assertThrows(ReglaNegocioException.class, () -> service.registrarIngreso(buildRequest(99L, 1L)));
@@ -68,7 +72,7 @@ class InventarioPaqueteServiceTest {
     }
 
     @Test
-    void registrarSalida_encontrado_asignaFechaSalida() {
+    void registrarSalidaEncontradoAsignaFechaSalida() {
         InventarioPaquete conSalida = new InventarioPaquete(1L, 10L, 2L, HOY, LocalDate.now());
 
         when(repository.findById(1L)).thenReturn(Optional.of(PAQUETE));
@@ -80,14 +84,14 @@ class InventarioPaqueteServiceTest {
     }
 
     @Test
-    void registrarSalida_noEncontrado_lanzaExcepcion() {
+    void registrarSalidaNoEncontradoLanzaExcepcion() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
         assertThrows(RecursoNoEncontradoException.class, () -> service.registrarSalida(99L));
     }
 
     @Test
-    void obtenerPorId_encontrado_retornaDTO() {
+    void obtenerPorIdEncontradoRetornaDTO() {
         when(repository.findById(1L)).thenReturn(Optional.of(PAQUETE));
 
         InventarioPaqueteResponse result = service.obtenerPorId(1L);
@@ -97,14 +101,14 @@ class InventarioPaqueteServiceTest {
     }
 
     @Test
-    void obtenerPorId_noEncontrado_lanzaExcepcion() {
+    void obtenerPorIdNoEncontradoLanzaExcepcion() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
         assertThrows(RecursoNoEncontradoException.class, () -> service.obtenerPorId(99L));
     }
 
     @Test
-    void obtenerPorGuia_encontrado_retornaDTO() {
+    void obtenerPorGuiaEncontradoRetornaDTO() {
         when(repository.findByIdGuia(10L)).thenReturn(Optional.of(PAQUETE));
 
         InventarioPaqueteResponse result = service.obtenerPorGuia(10L);
@@ -114,14 +118,14 @@ class InventarioPaqueteServiceTest {
     }
 
     @Test
-    void obtenerPorGuia_noEncontrado_lanzaExcepcion() {
+    void obtenerPorGuiaNoEncontradoLanzaExcepcion() {
         when(repository.findByIdGuia(99L)).thenReturn(Optional.empty());
 
         assertThrows(RecursoNoEncontradoException.class, () -> service.obtenerPorGuia(99L));
     }
 
     @Test
-    void listarEnBodega_retornaSoloSinFechaSalida() {
+    void listarEnBodegaRetornaSoloSinFechaSalida() {
         when(repository.findByFechaSalidaIsNull()).thenReturn(List.of(PAQUETE));
 
         List<InventarioPaqueteResponse> result = service.listarEnBodega();
@@ -131,7 +135,7 @@ class InventarioPaqueteServiceTest {
     }
 
     @Test
-    void listarPorSucursal_retornaListaDeSucursal() {
+    void listarPorSucursalRetornaListaDeSucursal() {
         when(repository.findByIdSucursalAndFechaSalidaIsNull(2L)).thenReturn(List.of(PAQUETE));
 
         List<InventarioPaqueteResponse> result = service.listarPorSucursal(2L);

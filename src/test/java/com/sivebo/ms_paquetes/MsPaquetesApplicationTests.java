@@ -1,8 +1,13 @@
 package com.sivebo.ms_paquetes;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +27,7 @@ import com.sivebo.ms_paquetes.exception.RecursoNoEncontradoException;
 import com.sivebo.ms_paquetes.exception.ReglaNegocioException;
 import com.sivebo.ms_paquetes.model.entity.InventarioPaquete;
 import com.sivebo.ms_paquetes.repository.InventarioPaqueteRepository;
-import com.sivebo.ms_paquetes.service.impl.InventarioPaqueteServiceImpl;
+import com.sivebo.ms_paquetes.service.InventarioPaqueteService;
 
 @ExtendWith(MockitoExtension.class)
 class MsPaquetesApplicationTests {
@@ -34,7 +39,7 @@ class MsPaquetesApplicationTests {
     private PaquetesClient paquetesClient;
 
     @InjectMocks
-    private InventarioPaqueteServiceImpl service;
+    private InventarioPaqueteService service;
 
     private InventarioPaquete paquete;
     private InventarioPaqueteRequest request;

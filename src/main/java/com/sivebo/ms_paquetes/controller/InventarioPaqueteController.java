@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name = "Inventario de Paquetes", description = "RF-22/23/24: control de paquetes en bodega por sucursal")
+@Tag(name = "Inventario de Paquetes", description = "Control de paquetes en bodega por sucursal")
 @RestController
 @RequestMapping("api/v1/inventario")
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class InventarioPaqueteController {
 
     private final InventarioPaqueteService service;
 
-    @Operation(summary = "Registrar ingreso de paquete", description = "RF-22: asocia un paquete a su guía y lo ingresa a bodega")
+    @Operation(summary = "Registrar ingreso de paquete", description = "Asocia un paquete a su guía y lo ingresa a bodega")
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Ingreso registrado"),
         @ApiResponse(responseCode = "400", description = "Guía de despacho no existe en el sistema")
@@ -41,7 +41,7 @@ public class InventarioPaqueteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrarIngreso(request));
     }
 
-    @Operation(summary = "Registrar salida de paquete", description = "RF-23: marca la fecha de egreso del paquete de bodega")
+    @Operation(summary = "Registrar salida de paquete", description = "marca la fecha de egreso del paquete de bodega")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Salida registrada"),
         @ApiResponse(responseCode = "404", description = "Registro de inventario no encontrado")
@@ -71,7 +71,7 @@ public class InventarioPaqueteController {
         return ResponseEntity.ok(service.obtenerPorGuia(idGuia));
     }
 
-    @Operation(summary = "Listar paquetes en bodega", description = "RF-24: muestra paquetes sin fecha de salida")
+    @Operation(summary = "Listar paquetes en bodega", description = "muestra paquetes sin fecha de salida")
     @ApiResponse(responseCode = "200", description = "Lista de paquetes en bodega")
     @GetMapping("/en-bodega")
     public ResponseEntity<List<InventarioPaqueteResponse>> listarEnBodega() {

@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "ms_paquetes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "SIVEBO ms_paquetes — todos los endpoints, ruteados por el API gateway ({{baseUrl}})."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "idGuia", "value": "1" },
+    { "key": "idSucursal", "value": "1" },
+    { "key": "idInventario", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "InventarioPaqueteController",
+      "item": [
+        {
+          "name": "Ingreso inventario",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idGuia\": 1,\n  \"idSucursal\": 1,\n  \"fechaIngreso\": \"2026-06-21\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/inventario/ingreso", "host": ["{{baseUrl}}"], "path": ["api","v1","inventario","ingreso"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var j;",
+                  "try { j = pm.response.json(); } catch (e) { j = null; }",
+                  "if (j && j.id !== undefined && j.id !== null) pm.collectionVariables.set(\"idInventario\", j.id);",
+                  "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200,201]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Salida inventario",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/inventario/{{idInventario}}/salida", "host": ["{{baseUrl}}"], "path": ["api","v1","inventario","{{idInventario}}","salida"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Obtener inventario por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/inventario/{{idInventario}}", "host": ["{{baseUrl}}"], "path": ["api","v1","inventario","{{idInventario}}"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Obtener inventario por guia",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/inventario/guia/{{idGuia}}", "host": ["{{baseUrl}}"], "path": ["api","v1","inventario","guia","{{idGuia}}"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Listar en bodega",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/inventario/en-bodega", "host": ["{{baseUrl}}"], "path": ["api","v1","inventario","en-bodega"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Listar por sucursal",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/inventario/sucursal/{{idSucursal}}", "host": ["{{baseUrl}}"], "path": ["api","v1","inventario","sucursal","{{idSucursal}}"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        }
+      ]
+    }
+  ]
+}
