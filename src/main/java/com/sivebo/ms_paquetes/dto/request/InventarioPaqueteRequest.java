@@ -2,6 +2,7 @@ package com.sivebo.ms_paquetes.dto.request;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class InventarioPaqueteRequest {
 
-    @NotNull(message = "El id de guia es obligatorio")
-    private Long idGuia;
+    @NotBlank(message = "El código de tracking es obligatorio")
+    private String codigoTracking;
 
-    @NotNull(message = "El id de sucursal es obligatorio")
-    private Long idSucursal;
+    @NotBlank(message = "El nombre de la sucursal es obligatorio")
+    private String nombreSucursal;
 
     @NotNull(message = "La fecha de ingreso es obligatoria")
     private LocalDate fechaIngreso;

@@ -15,11 +15,11 @@ public class PaquetesClient {
         this.webClient = builder.baseUrl("http://ms-tracking").build();
     }
 
-    public Boolean verificarGuiaExiste(Long idGuia) {
-        log.info("Verificando existencia de guia id: {} en ms-guias-despacho", idGuia);
+    public Boolean verificarGuiaExiste(String codigoTracking) {
+        log.info("Verificando existencia de guia codigoTracking: {} en ms-tracking", codigoTracking);
         try {
             webClient.get()
-                    .uri("/api/v1/guias/{id}", idGuia)
+                    .uri("/api/v1/guias/buscar?codigoTracking={codigoTracking}", codigoTracking)
                     .retrieve()
                     .bodyToMono(Object.class)
                     .block();

@@ -48,34 +48,34 @@ class MsPaquetesApplicationTests {
     void setUp() {
         paquete = new InventarioPaquete();
         paquete.setIdInv(1L);
-        paquete.setIdGuia(100L);
-        paquete.setIdSucursal(5L);
+        paquete.setCodigoTracking("C32627D89760");
+        paquete.setNombreSucursal("Sucursal Norte");
         paquete.setFechaIngreso(LocalDate.now());
         paquete.setFechaSalida(null);
 
         request = new InventarioPaqueteRequest();
-        request.setIdGuia(100L);
-        request.setIdSucursal(5L);
+        request.setCodigoTracking("C32627D89760");
+        request.setNombreSucursal("Sucursal Norte");
         request.setFechaIngreso(LocalDate.now());
     }
 
     @Test
     void registrarIngreso_guiaExiste_creaCorrectamente() {
-        when(paquetesClient.verificarGuiaExiste(100L)).thenReturn(true);
+        when(paquetesClient.verificarGuiaExiste("C32627D89760")).thenReturn(true);
         when(repository.save(any(InventarioPaquete.class))).thenReturn(paquete);
 
         InventarioPaqueteResponse response = service.registrarIngreso(request);
 
         assertNotNull(response);
-        assertEquals(100L, response.getIdGuia());
-        assertEquals(5L, response.getIdSucursal());
-        verify(paquetesClient).verificarGuiaExiste(100L);
+        assertEquals("C32627D89760", response.getCodigoTracking());
+        assertEquals("Sucursal Norte", response.getNombreSucursal());
+        verify(paquetesClient).verificarGuiaExiste("C32627D89760");
         verify(repository).save(any(InventarioPaquete.class));
     }
 
     @Test
     void registrarIngreso_guiaNoExiste_lanzaExcepcion() {
-        when(paquetesClient.verificarGuiaExiste(100L)).thenReturn(false);
+        when(paquetesClient.verificarGuiaExiste("C32627D89760")).thenReturn(false);
 
         assertThrows(ReglaNegocioException.class, () -> service.registrarIngreso(request));
         verify(repository, never()).save(any());
@@ -106,7 +106,7 @@ class MsPaquetesApplicationTests {
         InventarioPaqueteResponse response = service.obtenerPorId(1L);
 
         assertEquals(1L, response.getIdInv());
-        assertEquals(100L, response.getIdGuia());
+        assertEquals("C32627D89760", response.getCodigoTracking());
     }
 
     @Test
@@ -118,18 +118,18 @@ class MsPaquetesApplicationTests {
 
     @Test
     void obtenerPorGuia_existe_retornaPaquete() {
-        when(repository.findByIdGuia(100L)).thenReturn(Optional.of(paquete));
+        when(repository.findByCodigoTracking("C32627D89760")).thenReturn(Optional.of(paquete));
 
-        InventarioPaqueteResponse response = service.obtenerPorGuia(100L);
+        InventarioPaqueteResponse response = service.obtenerPorGuia("C32627D89760");
 
-        assertEquals(100L, response.getIdGuia());
+        assertEquals("C32627D89760", response.getCodigoTracking());
     }
 
     @Test
     void obtenerPorGuia_noExiste_lanzaExcepcion() {
-        when(repository.findByIdGuia(999L)).thenReturn(Optional.empty());
+        when(repository.findByCodigoTracking("NOEXISTE")).thenReturn(Optional.empty());
 
-        assertThrows(RecursoNoEncontradoException.class, () -> service.obtenerPorGuia(999L));
+        assertThrows(RecursoNoEncontradoException.class, () -> service.obtenerPorGuia("NOEXISTE"));
     }
 
     @Test
@@ -144,11 +144,11 @@ class MsPaquetesApplicationTests {
 
     @Test
     void listarPorSucursal_retornaListaFiltrada() {
-        when(repository.findByIdSucursalAndFechaSalidaIsNull(5L)).thenReturn(List.of(paquete));
+        when(repository.findByNombreSucursalAndFechaSalidaIsNull("Sucursal Norte")).thenReturn(List.of(paquete));
 
-        List<InventarioPaqueteResponse> lista = service.listarPorSucursal(5L);
+        List<InventarioPaqueteResponse> lista = service.listarPorSucursal("Sucursal Norte");
 
         assertEquals(1, lista.size());
-        assertEquals(5L, lista.get(0).getIdSucursal());
+        assertEquals("Sucursal Norte", lista.get(0).getNombreSucursal());
     }
 }

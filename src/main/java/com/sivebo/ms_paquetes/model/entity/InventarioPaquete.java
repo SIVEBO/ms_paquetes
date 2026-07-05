@@ -26,11 +26,11 @@ public class InventarioPaquete {
     @Column(name = "id_inv")
     private Long idInv;
 
-    @Column(name = "id_guia", nullable = false)
-    private Long idGuia;
+    @Column(name = "codigo_tracking", nullable = false)
+    private String codigoTracking;
 
-    @Column(name = "id_sucursal", nullable = false)
-    private Long idSucursal;
+    @Column(name = "nombre_sucursal", nullable = false)
+    private String nombreSucursal;
 
     @Column(name = "fecha_ingreso", nullable = false)
     private LocalDate fechaIngreso;

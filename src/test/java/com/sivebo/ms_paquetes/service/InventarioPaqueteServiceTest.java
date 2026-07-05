@@ -40,40 +40,40 @@ class InventarioPaqueteServiceTest {
     private InventarioPaqueteService service;
 
     private static final LocalDate HOY = LocalDate.of(2026, 6, 20);
-    private static final InventarioPaquete PAQUETE = new InventarioPaquete(1L, 10L, 2L, HOY, null);
+    private static final InventarioPaquete PAQUETE = new InventarioPaquete(1L, "C32627D89760", "Sucursal Centro", HOY, null);
 
-    private InventarioPaqueteRequest buildRequest(Long idGuia, Long idSucursal) {
+    private InventarioPaqueteRequest buildRequest(String codigoTracking, String nombreSucursal) {
         InventarioPaqueteRequest req = new InventarioPaqueteRequest();
-        req.setIdGuia(idGuia);
-        req.setIdSucursal(idSucursal);
+        req.setCodigoTracking(codigoTracking);
+        req.setNombreSucursal(nombreSucursal);
         req.setFechaIngreso(HOY);
         return req;
     }
 
     @Test
     void registrarIngresoGuiaExisteGuardaYRetornaDTO() {
-        when(paquetesClient.verificarGuiaExiste(10L)).thenReturn(true);
+        when(paquetesClient.verificarGuiaExiste("C32627D89760")).thenReturn(true);
         when(repository.save(any(InventarioPaquete.class))).thenReturn(PAQUETE);
 
-        InventarioPaqueteResponse result = service.registrarIngreso(buildRequest(10L, 2L));
+        InventarioPaqueteResponse result = service.registrarIngreso(buildRequest("C32627D89760", "Sucursal Norte"));
 
         assertNotNull(result);
-        assertEquals(10L, result.getIdGuia());
-        assertEquals(2L, result.getIdSucursal());
+        assertEquals("C32627D89760", result.getCodigoTracking());
+        assertEquals("Sucursal Centro", result.getNombreSucursal());
         verify(repository).save(any(InventarioPaquete.class));
     }
 
     @Test
     void registrarIngresoGuiaNoExisteLanzaReglaNegocio() {
-        when(paquetesClient.verificarGuiaExiste(99L)).thenReturn(false);
+        when(paquetesClient.verificarGuiaExiste("NOEXISTE")).thenReturn(false);
 
-        assertThrows(ReglaNegocioException.class, () -> service.registrarIngreso(buildRequest(99L, 1L)));
+        assertThrows(ReglaNegocioException.class, () -> service.registrarIngreso(buildRequest("NOEXISTE", "Sucursal Norte")));
         verify(repository, never()).save(any());
     }
 
     @Test
     void registrarSalidaEncontradoAsignaFechaSalida() {
-        InventarioPaquete conSalida = new InventarioPaquete(1L, 10L, 2L, HOY, LocalDate.now());
+        InventarioPaquete conSalida = new InventarioPaquete(1L, "C32627D89760", "Sucursal Centro", HOY, LocalDate.now());
 
         when(repository.findById(1L)).thenReturn(Optional.of(PAQUETE));
         when(repository.save(any(InventarioPaquete.class))).thenReturn(conSalida);
@@ -109,19 +109,19 @@ class InventarioPaqueteServiceTest {
 
     @Test
     void obtenerPorGuiaEncontradoRetornaDTO() {
-        when(repository.findByIdGuia(10L)).thenReturn(Optional.of(PAQUETE));
+        when(repository.findByCodigoTracking("C32627D89760")).thenReturn(Optional.of(PAQUETE));
 
-        InventarioPaqueteResponse result = service.obtenerPorGuia(10L);
+        InventarioPaqueteResponse result = service.obtenerPorGuia("C32627D89760");
 
         assertNotNull(result);
-        assertEquals(10L, result.getIdGuia());
+        assertEquals("C32627D89760", result.getCodigoTracking());
     }
 
     @Test
     void obtenerPorGuiaNoEncontradoLanzaExcepcion() {
-        when(repository.findByIdGuia(99L)).thenReturn(Optional.empty());
+        when(repository.findByCodigoTracking("NOEXISTE")).thenReturn(Optional.empty());
 
-        assertThrows(RecursoNoEncontradoException.class, () -> service.obtenerPorGuia(99L));
+        assertThrows(RecursoNoEncontradoException.class, () -> service.obtenerPorGuia("NOEXISTE"));
     }
 
     @Test
@@ -136,11 +136,11 @@ class InventarioPaqueteServiceTest {
 
     @Test
     void listarPorSucursalRetornaListaDeSucursal() {
-        when(repository.findByIdSucursalAndFechaSalidaIsNull(2L)).thenReturn(List.of(PAQUETE));
+        when(repository.findByNombreSucursalAndFechaSalidaIsNull("Sucursal Centro")).thenReturn(List.of(PAQUETE));
 
-        List<InventarioPaqueteResponse> result = service.listarPorSucursal(2L);
+        List<InventarioPaqueteResponse> result = service.listarPorSucursal("Sucursal Centro");
 
         assertEquals(1, result.size());
-        assertEquals(2L, result.get(0).getIdSucursal());
+        assertEquals("Sucursal Centro", result.get(0).getNombreSucursal());
     }
 }

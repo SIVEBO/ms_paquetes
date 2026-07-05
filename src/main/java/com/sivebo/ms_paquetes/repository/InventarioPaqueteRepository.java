@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.sivebo.ms_paquetes.model.entity.InventarioPaquete;
 
 public interface InventarioPaqueteRepository extends JpaRepository<InventarioPaquete, Long> {
-    Optional<InventarioPaquete> findByIdGuia(Long idGuia);
+    Optional<InventarioPaquete> findByCodigoTracking(String codigoTracking);
     List<InventarioPaquete> findByFechaSalidaIsNull();
-    List<InventarioPaquete> findByIdSucursalAndFechaSalidaIsNull(Long idSucursal);
+    List<InventarioPaquete> findByNombreSucursalAndFechaSalidaIsNull(String nombreSucursal);
 }

@@ -66,9 +66,9 @@ public class InventarioPaqueteController {
         @ApiResponse(responseCode = "200", description = "Registro encontrado"),
         @ApiResponse(responseCode = "404", description = "No hay inventario para esa guía")
     })
-    @GetMapping("/guia/{idGuia}")
-    public ResponseEntity<InventarioPaqueteResponse> obtenerPorGuia(@PathVariable Long idGuia) {
-        return ResponseEntity.ok(service.obtenerPorGuia(idGuia));
+    @GetMapping("/guia/{codigoTracking}")
+    public ResponseEntity<InventarioPaqueteResponse> obtenerPorGuia(@PathVariable String codigoTracking) {
+        return ResponseEntity.ok(service.obtenerPorGuia(codigoTracking));
     }
 
     @Operation(summary = "Listar paquetes en bodega", description = "muestra paquetes sin fecha de salida")
@@ -80,8 +80,8 @@ public class InventarioPaqueteController {
 
     @Operation(summary = "Listar paquetes en bodega por sucursal")
     @ApiResponse(responseCode = "200", description = "Lista filtrada por sucursal")
-    @GetMapping("/sucursal/{idSucursal}")
-    public ResponseEntity<List<InventarioPaqueteResponse>> listarPorSucursal(@PathVariable Long idSucursal) {
-        return ResponseEntity.ok(service.listarPorSucursal(idSucursal));
+    @GetMapping("/sucursal/{nombreSucursal}")
+    public ResponseEntity<List<InventarioPaqueteResponse>> listarPorSucursal(@PathVariable String nombreSucursal) {
+        return ResponseEntity.ok(service.listarPorSucursal(nombreSucursal));
     }
 }

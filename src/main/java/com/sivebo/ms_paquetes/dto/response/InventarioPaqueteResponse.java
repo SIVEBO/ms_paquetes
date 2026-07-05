@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class InventarioPaqueteResponse {
     private Long idInv;
-    private Long idGuia;
-    private Long idSucursal;
+    private String codigoTracking;
+    private String nombreSucursal;
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
 }

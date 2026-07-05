@@ -27,16 +27,16 @@ public class InventarioPaqueteService{
 
     
     public InventarioPaqueteResponse registrarIngreso(InventarioPaqueteRequest request) {
-        log.info("Registrando ingreso de paquete guia id: {}", request.getIdGuia());
+        log.info("Registrando ingreso de paquete guia codigoTracking: {}", request.getCodigoTracking());
 
-        Boolean guiaExiste = paquetesClient.verificarGuiaExiste(request.getIdGuia());
+        Boolean guiaExiste = paquetesClient.verificarGuiaExiste(request.getCodigoTracking());
         if (!guiaExiste) {
             throw new ReglaNegocioException("La guia de despacho no existe en el sistema");
         }
 
         InventarioPaquete paquete = new InventarioPaquete();
-        paquete.setIdGuia(request.getIdGuia());
-        paquete.setIdSucursal(request.getIdSucursal());
+        paquete.setCodigoTracking(request.getCodigoTracking());
+        paquete.setNombreSucursal(request.getNombreSucursal());
         paquete.setFechaIngreso(request.getFechaIngreso());
         return toResponse(repository.save(paquete));
     }
@@ -58,10 +58,10 @@ public class InventarioPaqueteService{
     }
 
     
-    public InventarioPaqueteResponse obtenerPorGuia(Long idGuia) {
-        log.info("Buscando paquete por guia id: {}", idGuia);
-        return toResponse(repository.findByIdGuia(idGuia)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Paquete no encontrado para guia: " + idGuia)));
+    public InventarioPaqueteResponse obtenerPorGuia(String codigoTracking) {
+        log.info("Buscando paquete por guia codigoTracking: {}", codigoTracking);
+        return toResponse(repository.findByCodigoTracking(codigoTracking)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Paquete no encontrado para guia: " + codigoTracking)));
     }
 
     
@@ -71,16 +71,16 @@ public class InventarioPaqueteService{
     }
 
     
-    public List<InventarioPaqueteResponse> listarPorSucursal(Long idSucursal) {
-        log.info("Listando paquetes en bodega de sucursal id: {}", idSucursal);
-        return repository.findByIdSucursalAndFechaSalidaIsNull(idSucursal).stream().map(this::toResponse).collect(Collectors.toList());
+    public List<InventarioPaqueteResponse> listarPorSucursal(String nombreSucursal) {
+        log.info("Listando paquetes en bodega de sucursal: {}", nombreSucursal);
+        return repository.findByNombreSucursalAndFechaSalidaIsNull(nombreSucursal).stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     private InventarioPaqueteResponse toResponse(InventarioPaquete p) {
         InventarioPaqueteResponse r = new InventarioPaqueteResponse();
         r.setIdInv(p.getIdInv());
-        r.setIdGuia(p.getIdGuia());
-        r.setIdSucursal(p.getIdSucursal());
+        r.setCodigoTracking(p.getCodigoTracking());
+        r.setNombreSucursal(p.getNombreSucursal());
         r.setFechaIngreso(p.getFechaIngreso());
         r.setFechaSalida(p.getFechaSalida());
         return r;
