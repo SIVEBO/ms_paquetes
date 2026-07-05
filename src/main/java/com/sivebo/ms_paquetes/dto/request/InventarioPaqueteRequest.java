@@ -3,9 +3,13 @@ package com.sivebo.ms_paquetes.dto.request;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class InventarioPaqueteRequest {
 
     @NotNull(message = "El id de guia es obligatorio")

@@ -25,7 +25,7 @@ public class PaquetesClient {
                     .block();
             return true;
         } catch (Exception e) {
-            log.error("Error al consultar ms-guias-despacho: {}", e.getMessage());
+            log.error("Error al consultar ms-tracking: {}", e.getMessage());
             return false;
         }
     }
